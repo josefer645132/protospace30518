@@ -6,13 +6,11 @@
       </p>
       
       <%= link_to "by #{@prototype.user.name}", user_path(@prototype.user), class: :prototype__user %>
-      <%# プロトタイプの投稿者とログインしているユーザーが同じであれば以下を表示する %>
-      <% if user_signed_in? && current_user.id == @prototype.user_id%>
+      <% if current_user == @prototype.user%>
         <div class="prototype__manage">
-          <%= link_to "編集する", edit_prototype_path(@prototype.user), class: :prototype__btn %>
-          <%= link_to "削除する", prototype_path(@prototype.user), method: :delete, class: :prototype__btn %>
+          <%= link_to "編集する", edit_prototype_path, class: :prototype__btn %>
+          <%= link_to "削除する", prototype_path, method: :delete, class: :prototype__btn %>
         </div>
-      <%# // プロトタイプの投稿者とログインしているユーザーが同じであれば上記を表示する %>
       <% end %>
       
       <div class="prototype__image">
@@ -37,15 +35,11 @@
       
       
       <div class="prototype__comments">
-        <%# ログインしているユーザーには以下のコメント投稿フォームを表示する %>
-          <%# <%= form_with local: true do |f|%>
-          <% if user_signed_in? %>
-         <%= form_with model: [@prototype, @comment], local: true do |f|%>
+        <% if user_signed_in? %>
+          <%= form_with model: [@prototype, @comment], local: true do |f|%>
             <div class="field">
-              <%= f.label :text, "コメント" %><br />
+              <%= f.label :text, "コメント" %>
               <%= f.text_field :text %>
-              <%# <%= f.label :hoge, "コメント" %>
-              <%# <%= f.text_field :hoge %>
             </div>
             
             <div class="actions">
